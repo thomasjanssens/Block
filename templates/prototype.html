@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Prototype</title>
+</head>
+<body>
+    <h3>Tasks</h3>
+    <ul id="tasks">
+    {% for item in task_list %}
+        <li>{{ item.value }}
+            <form style="display: inline" action="" method="post">
+                <input type=submit name={{item.id}} value=x>
+            </form></li>
+    {% endfor %}
+    </ul>
+    <br>
+add new...
+    <form action="" method="post">
+        <input type=text name=task_name>
+        <input type=submit name="add" value=+>
+        <input type=submit name="del" value=clear>
+    </form>
+
+    {# a comment #}
+</body>
+</html>
