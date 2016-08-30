@@ -101,3 +101,5 @@ class Database:
                     print b.pre_energy
                     print "suggested %s, worked %s" % (b.suggested_time, (b.end_time-b.start_time).seconds/60)
 
+
+

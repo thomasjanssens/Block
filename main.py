@@ -99,6 +99,16 @@ def next_is_valid(next):
     print next
     return True
 
+@app.route('/get_block_stats')
+@login_required
+def get_block_stats():
+    return flask.jsonify(current_user.dataInstances.list)
+
+@app.route('/get_break_stats')
+@login_required
+def get_break_stats():
+    return flask.jsonify([{'start_time':b['break_start_time'],'end_time':b['break_end_time']} for b in current_user.breakInstances.list])
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

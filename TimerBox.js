@@ -14,7 +14,7 @@ var TimerBox = React.createClass({
         this.setState({elapsed: new Date() - this.state.start},
             () => {
                  var totalSeconds = parseInt(this.state.elapsed) / 1000
-                 var totalSeconds = Math.floor(this.props.time) * 60 - totalSeconds;
+                 totalSeconds = Math.floor(this.props.time) * 60 - totalSeconds;
                 if (this.props.time >0 && totalSeconds <= 0 && !this.state.notificationFired) {
                     this.setState({notificationFired: true},()=>{
                     this.props.onTimeUp();});
@@ -30,7 +30,7 @@ var TimerBox = React.createClass({
     render: function () {
         var totalSeconds = parseInt(this.state.elapsed) / 1000;
         if (this.props.time > 0) { //if given time <= 0 we count UP, not DOWN
-            var totalSeconds = Math.floor(this.props.time) * 60 - totalSeconds;
+            totalSeconds = Math.floor(this.props.time) * 60 - totalSeconds;
         }
 
         var isNeg = totalSeconds<0;

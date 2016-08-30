@@ -7,6 +7,7 @@ import TaskInputBox from './TaskInputBox'
 import SprintBox from './SprintBox'
 import BreakBox from './BreakBox'
 import TimeFeedBackBox from './TimeFeedbackBox'
+import Visualization from './Visualization'
 
 var MainContainer = React.createClass({
     getInitialState: function () {
@@ -53,7 +54,9 @@ var MainContainer = React.createClass({
         //tell the server to store the running task
         xhr({
             method: 'post',
-            body: `task_name=${this.state.taskName}&pre_energy=${this.state.energy}&start_time=${this.state.startTime}&end_time=${this.state.endTime}&user_rating=${this.state.user_rating}&auto_rating=${this.state.auto_rating}&suggested_time=${this.state.predictedTime}`,
+            body: `task_name=${this.state.taskName}&pre_energy=${this.state.energy}&start_time=${this.state.startTime}`+
+            `&end_time=${this.state.endTime}&user_rating=${this.state.user_rating}&auto_rating=${this.state.auto_rating}`+
+            `&suggested_time=${this.state.predictedTime}`,
             url: "/finish_sprint",
             headers: {
                 "Content-type": "application/x-www-form-urlencoded"
@@ -65,7 +68,7 @@ var MainContainer = React.createClass({
     handleBreakRequest: function () {
         var endTime = Date.now();
         this.setState({endTime: endTime});
-        var time_worked = (new Date(endTime))- (new Date(this.state.startTime))
+        var time_worked = (new Date(endTime))- (new Date(this.state.startTime));
         var minsWorked = time_worked/60/1000;
         console.log(endTime);
         console.log(this.state.startTime);
@@ -199,18 +202,20 @@ var MainContainer = React.createClass({
         if (this.state.uiState === "main") {
             return (
                 <div>
-                <TaskInputBox
-                    taskName={this.state.taskName}
-                    onTaskStart={this.handleTaskStart}
-                    onNameChange={this.handleTaskNameChange}
-                    onEnergyLevelChange={this.handleEnergyLevelChange}
-                    predictedTime={this.state.predictedTime}
-                    allowStart={this.allowStart}
-                    energy={this.state.energy}
-                />
+                    <TaskInputBox
+                        taskName={this.state.taskName}
+                        onTaskStart={this.handleTaskStart}
+                        onNameChange={this.handleTaskNameChange}
+                        onEnergyLevelChange={this.handleEnergyLevelChange}
+                        predictedTime={this.state.predictedTime}
+                        allowStart={this.allowStart}
+                        energy={this.state.energy}
+                    />
                     <br /> <br />
-            <p style={{"fontSize" : "10px", "color":"gray"}}>version timestamp: {this.state.serverStamp}</p>
-            </div>
+                  <Visualization />
+                    <br /> <br />
+                    <p style={{"fontSize": "10px", "color": "gray"}}>version timestamp: {this.state.serverStamp}</p>
+                </div>
             );
         }
         else if (this.state.uiState === "running") {
@@ -244,6 +249,6 @@ var MainContainer = React.createClass({
 });
 
 ReactDOM.render(
-    <MainContainer/>,
+    <div><MainContainer /></div>,
     document.getElementById('content')
 );
