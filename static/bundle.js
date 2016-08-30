@@ -176,6 +176,13 @@ var TaskInputBox = React.createClass({
         });
     },
 
+    keyCheck: function keyCheck(e) {
+        console.log(e);
+        if (e.key == "Enter" && this.props.allowStart) {
+            this.props.onTaskStart();
+        }
+    },
+
     handleFavoriteClick: function handleFavoriteClick(e, f) {
         e.preventDefault();
         console.log(f);
@@ -188,50 +195,82 @@ var TaskInputBox = React.createClass({
         var buttons = this.state.favorites.map(function (fav) {
             return React.createElement(
                 "button",
-                { key: fav, onClick: function onClick(e) {
+                { key: fav,
+                    onClick: function onClick(e) {
                         return _this2.handleFavoriteClick(e, fav);
-                    } },
-                fav
+                    },
+                    onKeyDown: _this2.keyCheck },
+                fav,
+                " ×"
             );
         });
         return React.createElement(
-            "form",
-            { style: { 'display': 'inline' }, className: "commentForm", onSubmit: this.handleSubmit },
-            "What are you going to do next?",
-            ' ',
-            React.createElement("br", null),
-            React.createElement("br", null),
-            React.createElement("input", {
-                type: "text",
-                placeholder: "Create new activity...",
-                value: this.props.taskName,
-                onChange: function onChange(e) {
-                    return _this2.props.onNameChange(e.target.value);
-                }
-            }),
-            React.createElement("br", null),
-            React.createElement("br", null),
-            buttons,
-            React.createElement("br", null),
-            React.createElement("br", null),
-            React.createElement("br", null),
-            "How energetic are you feeling?",
-            React.createElement(_EnergyInput2.default, { handleChange: function handleChange(e) {
-                    return _this2.props.onEnergyLevelChange(e.target.value);
-                }, energy: this.props.energy }),
-            React.createElement("br", null),
-            "Suggested time: ",
-            this.props.predictedTime,
-            React.createElement("br", null),
-            React.createElement("br", null),
+            "div",
+            { className: "taskInputBox" },
+            React.createElement("input", { style: { visibility: "hidden" }, onKeyDown: this.keyCheck }),
             React.createElement(
                 "div",
-                { className: this.props.allowStart() ? '' : "tooltip" },
-                React.createElement("input", { type: "submit", value: "Start Block", disabled: this.props.allowStart() ? '' : "disabled" }),
-                this.props.allowStart() ? '' : React.createElement(
-                    "span",
-                    { className: "tooltiptext" },
-                    " 'Please select an activity first'"
+                { className: "taskColumnBox" },
+                React.createElement(
+                    "div",
+                    { className: "headingBlock" },
+                    React.createElement(
+                        "h1",
+                        null,
+                        " What are you going to work on during this block?"
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "taskNameBox" },
+                    React.createElement(
+                        "h2",
+                        null,
+                        " Enter the name of the task you'll do in this block "
+                    ),
+                    React.createElement(
+                        "form",
+                        { style: { 'display': 'inline' }, className: "commentForm", onSubmit: this.handleSubmit },
+                        React.createElement("input", {
+                            type: "text",
+                            placeholder: "Enter task name",
+                            value: this.props.taskName,
+                            onChange: function onChange(e) {
+                                return _this2.props.onNameChange(e.target.value);
+                            },
+                            onKeyDown: this.keyCheck
+                        })
+                    ),
+                    React.createElement(
+                        "p",
+                        null,
+                        " Remember, try not to make it too specific. Try something like \"planning\""
+                    )
+                ),
+                React.createElement(
+                    "div",
+                    { className: "previousTasksBox" },
+                    React.createElement(
+                        "h2",
+                        null,
+                        " Or choose from some of your favourites "
+                    ),
+                    buttons
+                )
+            ),
+            React.createElement(
+                "div",
+                { className: "continueBox" },
+                React.createElement("img", { src: "/static/circles.png", width: 40 + "px" }),
+                " ",
+                React.createElement("br", null),
+                React.createElement("img", { className: this.props.allowStart() ? "" : "gray",
+                    src: "/static/arrow.png", width: 50 + "px",
+                    onClick: this.props.allowStart() ? this.props.onTaskStart : "" }),
+                React.createElement(
+                    "p",
+                    { className: "continueText" },
+                    'To continue, click arrow or press Enter'
                 )
             )
         );

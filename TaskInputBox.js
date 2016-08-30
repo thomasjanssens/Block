@@ -24,6 +24,14 @@ var TaskInputBox = React.createClass({
        });
     },
 
+    keyCheck: function (e) {
+        console.log(e);
+        if(e.key == "Enter" && this.props.allowStart) {
+            this.props.onTaskStart();
+        }
+
+    },
+
     handleFavoriteClick: function (e,f) {
         e.preventDefault();
         console.log(f);
@@ -31,31 +39,48 @@ var TaskInputBox = React.createClass({
     },
 
     render: function () {
-        var buttons = this.state.favorites.map((fav) => <button key={fav} onClick={(e)=>this.handleFavoriteClick(e,fav)}>{fav}</button>);
+        var buttons = this.state.favorites.map((fav) => <button key={fav}
+                                                                onClick={(e)=>this.handleFavoriteClick(e, fav)}
+                                                                onKeyDown={this.keyCheck}>{fav}{" \u00D7"}</button>);
         return (
-            <form style={{'display':'inline'}} className="commentForm" onSubmit={this.handleSubmit}>
-               What are you going to do next?{' '}
-                <br /><br />
-                <input
-                    type="text"
-                    placeholder="Create new activity..."
-                    value={this.props.taskName}
-                    onChange={(e)=>this.props.onNameChange(e.target.value)}
-                />
 
-                <br /><br />
-                {buttons}
-                <br /><br /><br />
-                How energetic are you feeling?
-                <EnergyInput handleChange={(e) => this.props.onEnergyLevelChange(e.target.value)} energy={this.props.energy}/>
-                <br />
-                Suggested time: {this.props.predictedTime}
-                <br /><br />
-                <div className={this.props.allowStart() ?'':"tooltip"}>
-                <input type="submit" value="Start Block" disabled={this.props.allowStart() ? '' : "disabled"}/>
-                {this.props.allowStart() ?'':<span className="tooltiptext"> 'Please select an activity first'</span>}
+            <div className="taskInputBox">
+                  <input style={{visibility:"hidden"}} onKeyDown={this.keyCheck}/>
+                <div className="taskColumnBox">
+                    <div className="headingBlock">
+                        <h1> What are you going to work on during this block?</h1>
+                    </div>
+
+                    <div className="taskNameBox">
+                        <h2> Enter the name of the task you'll do in this block </h2>
+                        <form style={{'display': 'inline'}} className="commentForm" onSubmit={this.handleSubmit}>
+                            <input
+                                type="text"
+                                placeholder="Enter task name"
+                                value={this.props.taskName}
+                                onChange={(e)=>this.props.onNameChange(e.target.value)}
+                                 onKeyDown={this.keyCheck}
+                            />
+                        </form>
+                        <p> Remember, try not to make it too specific.
+                            Try something like "planning"</p>
+                    </div>
+
+                    <div className="previousTasksBox">
+                        <h2> Or choose from some of your favourites </h2>
+                        {buttons}
+                    </div>
+                </div>
+
+                <div className="continueBox">
+                    <img src="/static/circles.png"  width={40+"px"} /> <br />
+                    <img className={this.props.allowStart()?"":"gray"}
+                         src="/static/arrow.png" width={50+"px"}
+                         onClick={this.props.allowStart()?this.props.onTaskStart:""} />
+                    <p className="continueText">{'To continue, click arrow or press Enter'}</p>
+                </div>
+
             </div>
-            </form>
         );
     }
 });
