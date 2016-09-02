@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom'
 import Remarkable from 'remarkable'
 import xhr from 'xhr'
 
+
 import TaskInputBox from './TaskInputBox'
 import SprintBox from './SprintBox'
 import BreakBox from './BreakBox'
 import TimeFeedBackBox from './TimeFeedbackBox'
 import Visualization from './Visualization'
+import EmotionInput from './EmotionInput'
+import Stats from './stats'
 
 var MainContainer = React.createClass({
     getInitialState: function () {
@@ -45,9 +48,12 @@ var MainContainer = React.createClass({
     },
 
     handleTaskStart: function () {
-        //TODO tell the server to finalize the running task
         this.setState({uiState: "running"});
         this.setState({startTime:Date.now()});
+    },
+
+    handleTaskEntered: function() {
+        this.setState({uiState: 'emotion'});
     },
 
     submitFinishedSprint: function () {
@@ -198,24 +204,38 @@ var MainContainer = React.createClass({
         audio.play();
     },
 
+    handleStatsRequest: function(){
+        this.setState({uiState:"stats"});
+    },
+
+    handleStatsExit: function(){
+        this.setState({uiState:"main"});
+    },
+
     render: function () {
         if (this.state.uiState === "main") {
             return (
                 <div>
+                    <img src="/static/stats.png" onClick={this.handleStatsRequest} />
                     <TaskInputBox
                         taskName={this.state.taskName}
-                        onTaskStart={this.handleTaskStart}
+                        onTaskStart={this.handleTaskEntered}
                         onNameChange={this.handleTaskNameChange}
-                        onEnergyLevelChange={this.handleEnergyLevelChange}
-                        predictedTime={this.state.predictedTime}
                         allowStart={this.allowStart}
-                        energy={this.state.energy}
                     />
                     <br /> <br />
                   <Visualization />
                     <br /> <br />
                     <p style={{"fontSize": "10px", "color": "gray"}}>version timestamp: {this.state.serverStamp}</p>
                 </div>
+            );
+        }
+        else if (this.state.uiState === "emotion") {
+            return (
+                <div><EmotionInput
+                        onTaskStart={this.handleTaskStart}
+                        onEnergyLevelChange={this.handleEnergyLevelChange}
+                        energy={this.state.energy}/></div>
             );
         }
         else if (this.state.uiState === "running") {
@@ -245,10 +265,18 @@ var MainContainer = React.createClass({
                 <TimeFeedBackBox onSubmit={this.handleTimeFeedbackGiven}/>
             );
         }
+
+          else if (this.state.uiState === "stats") {
+            return (
+                <Stats exit={this.handleStatsExit}/>
+            );
+        }
     }
 });
 
 ReactDOM.render(
-    <div><MainContainer /></div>,
+    <div>
+        <MainContainer/>
+    </div>,
     document.getElementById('content')
 );

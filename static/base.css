@@ -19,6 +19,7 @@ h1{
     font-weight: bold;
     color: #D87066;
     font-size: 40pt;
+    line-height: 120%;
 }
 
 h2{
@@ -28,7 +29,7 @@ h2{
     font-size: 23pt;
 }
 
-p{
+span, p{
     font-weight:100;
     color: #999999;
     font-size: 15pt;
@@ -52,13 +53,14 @@ p{
 }
 
 .taskColumnBox{
-    min-height: 350px;
+    min-height: 200px;
 }
 
 .continueBox {
     clear: both;
     position: relative;
     text-align: center;
+    margin-top: 50px;
 }
 
 .continueText{
@@ -71,6 +73,33 @@ p{
     filter: grayscale(100%);
 }
 
+.emotionBox {
+    /*clear: both;*/
+    display: table;
+    border-spacing: 20px;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.leftImage{
+    vertical-align: middle;
+    /*float:left;*/
+    display: table-cell;
+}
+
+.rightImage{
+    vertical-align: middle;
+    /*float:right;*/
+    display: table-cell;
+}
+
+
+.slider{
+    vertical-align: middle;
+    width:300px;
+    display: table-cell;
+}
+
 button, input{
 
     font-family: 'Josefin Sans', sans-serif;
@@ -78,13 +107,14 @@ button, input{
     border: 1px #CCCCCC;
     background-color: #F2F2F2;
     box-shadow:2px 2px 10px 2px lightgrey inset, -2px -2px 10px 2px lightgrey inset;
-    padding: 10px 10px;
+    padding: 12px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 20px;
     color: #999999;
     margin: 5px;
+    cursor: pointer;
 }
 
 .taskButton{
@@ -102,6 +132,10 @@ button:hover {
 .emoji{
     font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", Times, Symbola, Aegyptus, Code2000, Code2001, Code2002, Musica, serif, LastResort;
 
+}
+
+.continueArrow{
+    cursor: pointer;
 }
 
 .tooltip {
@@ -149,3 +183,36 @@ button:hover {
     visibility: visible;
     opacity: 1;
 }
+
+.flip {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+}
+
+
+/*.example-enter {*/
+  /*opacity: 0.01;*/
+    /*z-index:1;*/
+    /*position: inherit;*/
+/*}*/
+
+/*.example-enter.example-enter-active {*/
+  /*opacity: 1;*/
+  /*transition: opacity 100ms ease-in;*/
+    /*transition-delay: 500ms;*/
+/*}*/
+
+/*.example-leave {*/
+  /*opacity: 1;*/
+    /*z-index:-1;*/
+    /*position: inherit;*/
+/*}*/
+
+/*.example-leave.example-leave-active {*/
+  /*opacity: 0.01;*/
+  /*transition: opacity 500ms ease-in;*/
+/*}*/

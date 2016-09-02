@@ -90,6 +90,15 @@ def finish_break():
     db.store_finished_break(current_user,break_start_time,break_end_time)
     return '', 204
 
+
+@app.route('/delete_favorite', methods=['POST'])
+@login_required
+def delete_favorite():
+    print request.form
+    fav_name = request.form['fav']
+    db.add_favorite_exclusion(current_user, fav_name)
+    return '', 204
+
 @login_manager.user_loader
 def get_user(ident):
     return db.get_user(ident)

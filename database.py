@@ -75,6 +75,8 @@ class Database:
             dict(task_name=task_name, pre_energy=pre_energy, start_time=start_time, end_time=end_time,
                  user_feedback=user_rating, auto_rating=auto_rating=='true', suggested_time=suggested_time))
             #dict(task_name=task_name))
+        if user.exclusions and task_name in user.exclusions:
+            user.exclusions.remove(task_name)
         user.store(self.db)
 
     def store_finished_break(self, user, break_start_time,break_end_time):
@@ -100,6 +102,15 @@ class Database:
                         user.store(self.db)
                     print b.pre_energy
                     print "suggested %s, worked %s" % (b.suggested_time, (b.end_time-b.start_time).seconds/60)
+
+
+    def add_favorite_exclusion(self, user,fav_name):
+        if not user.exclusions:
+            user.exclusions = []
+        if not fav_name in user.exclusions:
+            user.exclusions.append(fav_name)
+            user.store(self.db)
+
 
 
 

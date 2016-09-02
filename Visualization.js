@@ -43,7 +43,7 @@ var Visualization = React.createClass({
             console.log(instance);
             var startDate=new Date(instance.start_time);
             var endDate=new Date(instance.end_time);
-            if (startDate.getDay() == new Date("2016-08-24T16:31:04Z").getDay()) {
+            if (startDate.getDate() == this.props.date.getDate()) {
                 var start_minutes_in_day = startDate.getHours() * 60 + startDate.getMinutes();
                 var end_minutes_in_day = endDate.getHours() * 60 + endDate.getMinutes();
                 console.log(start_minutes_in_day);
@@ -57,15 +57,15 @@ var Visualization = React.createClass({
         return times;
     },
 
-    createRenderableTimes : function(block_times,break_times){
+    createRenderableTimes : function(block_times,break_times) {
         var width = 500;
         var inner_margin = 10;
         var height = 30;
         var start_hour = 8;
         var end_hour = 18;
-        var min_offset = start_hour*60;
-        var mins_in_day = (end_hour-start_hour)*60.0;
-        var adj = (width-2*inner_margin)/mins_in_day;
+        var min_offset = start_hour * 60;
+        var mins_in_day = (end_hour - start_hour) * 60.0;
+        var adj = (width - 2 * inner_margin) / mins_in_day;
         console.log(adj);
         console.log(mins_in_day);
         console.log(min_offset);
@@ -76,7 +76,7 @@ var Visualization = React.createClass({
         var canvas = ReactDOM.findDOMNode(this.refs.myCanvas);
         canvas.width = width;
         canvas.height = height;
-        canvas.style = {borderWidth:1+'px', borderStyle:'solid', borderColor:'#000000'};
+        canvas.style = {borderWidth: 1 + 'px', borderStyle: 'solid', borderColor: '#000000'};
         var ctx = canvas.getContext('2d');
 
         ctx.imageSmoothingEnabled = false;
@@ -88,21 +88,24 @@ var Visualization = React.createClass({
         ctx.fillStyle = "#888888";
         ctx.font = "12px Arial";
         ctx.textAlign = "center";
-        for(var j = start_hour; j <= end_hour; j++){
-            let x_pos = Math.min((j*60-min_offset)*adj+inner_margin,width);
-            ctx.fillRect(x_pos, height/2, 1, height/2);
-            ctx.fillText(j,x_pos,12);
+        for (var j = start_hour; j <= end_hour; j++) {
+            let x_pos = Math.min((j * 60 - min_offset) * adj + inner_margin, width);
+            ctx.fillRect(x_pos, height / 2, 1, height / 2);
+            ctx.fillText(j, x_pos, 12);
         }
 
-        ctx.fillStyle = "#FF0000";
-        var now= new Date(Date.now());
-        console.log(now);
-        var mins = now.getHours()*60+now.getMinutes();
-        console.log(mins);
-        var x_pos = Math.min((mins-min_offset)*adj+inner_margin,width);
-        console.log(x_pos);
-        ctx.fillRect(x_pos, 0, 1, height);
-       // http://stackoverflow.com/questions/30296341/rendering-returning-html5-canvas-in-reactjs
+        if (this.props.date.getDate() == new Date().getDate()) {
+
+            ctx.fillStyle = "#FF0000";
+            var now = new Date(Date.now());
+            console.log(now);
+            var mins = now.getHours() * 60 + now.getMinutes();
+            console.log(mins);
+            var x_pos = Math.min((mins - min_offset) * adj + inner_margin, width);
+            console.log(x_pos);
+            ctx.fillRect(x_pos, 0, 1, height);
+        }
+        // http://stackoverflow.com/questions/30296341/rendering-returning-html5-canvas-in-reactjs
     },
 
 

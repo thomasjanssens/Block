@@ -5,7 +5,7 @@ from couchdb.mapping import Document, IntegerField, TextField, ListField, Mappin
 class User(Document):
     name = TextField()
     password = TextField()
-    taskTypeCache = ListField(TextField())
+    exclusions = ListField(TextField())
     dataInstances = ListField(DictField(Mapping.build(
         task_name=TextField(),
         start_time=DateTimeField(),
@@ -28,7 +28,7 @@ class User(Document):
     def get_favorites(self):
         favs = []
         for inst in self.dataInstances:
-            if inst.task_name not in favs:
+            if inst.task_name not in favs and inst.task_name not in self.exclusions:
                 favs.append(inst.task_name)
         return favs
 

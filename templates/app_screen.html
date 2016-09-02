@@ -9,9 +9,8 @@
 </head>
 <body>
 <div id="header">
-    <h3 style="text-align: center">Block</h3>
-    <p>Welcome, {{current_user.name}}</p>
-    <form action="/logout">
+    <span>Welcome, {{current_user.name}}</span>
+    <form action="/logout" style="display: inline; text-align: right">
     <input type="submit" value="Logout" />
 </form>
 </div>

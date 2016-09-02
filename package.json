@@ -4,7 +4,7 @@
   "description": "",
   "main": "react.js",
   "scripts": {
-    "start": "watchify -t babelify main.js -o static/bundle.js",
+    "start": "watchify -g browserify-css -t babelify main.js -o static/bundle.js",
     "build": "browserify -t babelify main.js > static/bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,11 +15,15 @@
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
     "browserify": "^13.1.0",
+    "browserify-css": "^0.9.1",
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "react": "^15.3.0",
-    "react-dom": "^15.3.0",
+    "@joegesualdo/react-slider": "0.0.3",
+    "rc-slider": "^4.0.1",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-rangeslider": "^1.0.3",
     "remarkable": "^1.6.2",
     "xhr": "^2.2.2"
   }
